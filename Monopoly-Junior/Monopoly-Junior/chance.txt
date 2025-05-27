@@ -19,7 +19,7 @@ paie 3 euros pour prendre le bus qui te conduit au café:26
 va sur la case départ et reçoit 2 euros:0
 va sur la case ballet de dauphine et paie 2 euros:24
 va sur la case feu artifice et paie 2 euro:8
-prend le petit bleu et lance le dé une nouvelle fois:21
-prend le petit rouge et lance le dé une nouvelle fois:29
-prend le petit jaune et lance le dé une nouvelle fois:5
-prend le petit vert et lance le dé une nouvelle fois:13
+prend le petit train bleu et lance le dé une nouvelle fois:21
+prend le petit train rouge et lance le dé une nouvelle fois:29
+prend le petit train jaune et lance le dé une nouvelle fois:5
+prend le petit train vert et lance le dé une nouvelle fois:13
