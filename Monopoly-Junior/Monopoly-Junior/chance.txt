@@ -1,4 +1,3 @@
-texte:numero
 stand gratuit orange:33
 stand gratuit orange:33
 stand gratuit rouge:33
@@ -7,8 +6,8 @@ stand gratuit rose:33
 stand gratuit rose:33
 stand gratuit bleu clair:33
 stand gratuit bleu clair:33
-stand gratuit bleu foncé:33
-stand gratuit bleu foncé:33
+stand gratuit bleu foncÃ©:33
+stand gratuit bleu foncÃ©:33
 stand gratuit jaune:33
 stand gratuit jaune:33
 stand gratuit vert:33
@@ -16,11 +15,11 @@ stand gratuit vert:33
 stand gratuit violet:33
 va sur toboggan aquatique:14
 va sur la case grand huit:30
-paie 3 euros pour prendre le bus qui te conduit au café:26
-va sur la case départ et reçoit 2 euros:0
+paie 3 euros pour prendre le bus qui te conduit au cafÃ©:26
+va sur la case dÃ©part et reÃ§oit 2 euros:0
 va sur la case ballet de dauphine et paie 2 euros:24
 va sur la case feu artifice et paie 2 euro:8
-prend le petit bleu et lance le dé une nouvelle fois:21
-prend le petit rouge et lance le dé une nouvelle fois:29
-prend le petit jaune et lance le dé une nouvelle fois:5
-prend le petit vert et lance le dé une nouvelle fois:13
+prend le petit bleu et lance le dÃ© une nouvelle fois:21
+prend le petit rouge et lance le dÃ© une nouvelle fois:29
+prend le petit jaune et lance le dÃ© une nouvelle fois:5
+prend le petit vert et lance le dÃ© une nouvelle fois:13
