@@ -10,7 +10,7 @@ private:
 	std::list<Card> cards;
 	std::vector<Player> players;
 
-	Case getCase(short position);  
+	Case& getCase(short position);  
 	void payerLoyer();              
 	void placerStand();           
 	void tirerCarte();              
