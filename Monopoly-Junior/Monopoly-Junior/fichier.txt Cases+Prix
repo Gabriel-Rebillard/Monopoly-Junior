@@ -1,0 +1,31 @@
+ :Depart:
+ :Chance:
+a:Jeu de ballons:1
+a:Barbe a papa:1
+ :Chance:
+ :Train jaune:
+a:Theatre des marionnettes:2
+a:Spectacle de magie:2
+ :Feu d'artifice:
+ :Chance:
+ :Café:
+a:Manege:2
+a:Pedalos:2
+ :Train vert:
+a:Tobogan aquatique:3
+a:Mini golf:3
+ :Fortune:
+ :Chance:
+a:Jeu video:3
+a:la Maison hantée:3
+ :Chance:
+ :Train bleu:
+a:Promenade en helicoptere:4
+a:Promenade a poney:4
+ :Ballet des dauphins:2
+ :Bus:2
+a:Autos tamponeuses:4
+a:Grande route:4
+ :Train rouge:
+a:Grand huit:5
+a:Montagnes russes:5
