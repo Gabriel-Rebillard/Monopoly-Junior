@@ -1,23 +1,22 @@
-#include <iostream>
-#include <vector>
+#pragma once
 #include <string>
-#include <cstdlib>
-#include <ctime>
 
 class Joueur
 {
-
 private:
-std::string name;
-short money;
-short position;
-public:
+	std::string name;
+	short money;
+	short position;
 
-Joueur(const std::string& playerName);
-std::string getName();
-void modifyMoney(short montant);
-void setPosition(short pos);
-short getPosition();
-short rollDice();
-short getMoney();
+public:
+	Joueur(const std::string& playerName);
+
+	std::string getName();
+	short getPosition();
+	short getMoney();
+
+	void modifyMoney(short montant);
+	void setPosition(short pos);
+	
+	short rollDice();
 };

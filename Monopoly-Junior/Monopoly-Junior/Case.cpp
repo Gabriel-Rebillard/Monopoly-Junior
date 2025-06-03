@@ -1,14 +1,8 @@
 #include "Case.h"
 
-Case::Case(const std::string& name, short position)
-	: position(position), name(name)
-{
-}
-
-short Case::getPosition()
-{
-	return position;
-}
+Case::Case(const std::string& name)
+	: name(name)
+{}
 
 std::string& Case::getName()
 {

@@ -4,12 +4,10 @@
 class Case
 {
 protected:
-	const short position;
 	std::string name;
 
 public:
-	Case(const std::string& name, short position);
-	short getPosition();
+	Case(const std::string& name);
 	std::string& getName();
 };
 

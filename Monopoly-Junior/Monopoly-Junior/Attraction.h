@@ -1,9 +1,15 @@
-#include "Player.h"
-class Attraction {
+#pragma once
+#include "Joueur.h"
+#include "Case.h"
+#include <string>
+
+class Attraction : public Case{
 private:
-	char price;
-	Player proprio;
+	short price;
+	Joueur owner;
 
 public:
-	Attraction();
+	Attraction(const std::string& name, short price);
+	void setOwner(Joueur& own);
+	Joueur getOwner();
 };

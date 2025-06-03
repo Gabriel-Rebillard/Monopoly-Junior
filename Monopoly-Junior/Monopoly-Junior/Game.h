@@ -1,19 +1,20 @@
+#pragma once
 #include <list>
 #include <vector>
-#include <iostream>
 #include <fstream>
-#include "Case.h"
 #include "Card.h"
-#include <cstdlib>
+#include "Joueur.h"
+#include "Attraction.h"
+#include "Fortune.h"
 
 #define CHANCE_FILE_NAME "chance.txt"
-//#include "Player.h"
+#define CASES_FILE_NAME "cases.txt"
 
 class Game {
 private:
 	std::vector<Case> cases;
 	std::list<Card> cards;
-	//std::vector<Player> players;
+	std::vector<Joueur> players;
 
 	Case& getCase(short position);  
 	void payerLoyer();              
@@ -21,7 +22,9 @@ private:
 	void tirerCarte();      
 
 	void flushCards();
+	void createCases();
 public:
 	Game();                       
-	void nextTurn();              
+	void nextTurn();
+	void addPlayer(Joueur& player);
 };

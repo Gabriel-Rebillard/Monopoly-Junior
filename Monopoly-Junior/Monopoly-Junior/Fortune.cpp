@@ -1,7 +1,7 @@
 #include "Fortune.h"
 
-Fortune::Fortune(const std::string& name, short position)
-	: money(0), Case(name, position)
+Fortune::Fortune(const std::string& name)
+	: money(0), Case(name)
 {
 }
 

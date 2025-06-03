@@ -1,10 +1,4 @@
 #include "Joueur.h"
-#include <iostream>
-#include <vector>
-#include <string>
-#include <cstdlib>
-#include <ctime>
-
 
 
 Joueur::Joueur(const std::string& playerName) : name(playerName), money(31), position(0)
