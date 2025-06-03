@@ -5,20 +5,19 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
-#include "Game"
-
+#include "Game.h"
 class Display
 {
 public:
-	void write_case();
-	void write_chance();
-	void write_intro();
-	void write_buy();
-	void write_prison();
-	void write_gare();
-	void write_caseDepart();
-	void write_fortune();
-	void write_newtour();
-	void write_taxe();
+	void write_case(Joueur& joueur, Case& case);
+	void write_chance(Joueur& joueur);
+	void write_buy(Joueur& joueur);
+	void write_prison(Joueur& joueur);
+	void write_gare(Joueur& joueur);
+	void write_caseDepart(Joueur& joueur);
+	void write_fortune(Joueur& joueur);
+	void write_newtour(Joueur& joueur);
+	void write_taxe(Joueur& joueur);
+
 
 };
