@@ -23,6 +23,7 @@ a:la Maison hantée:3
 a:Promenade en helicoptere:4
 a:Promenade a poney:4
  :Ballet des dauphins:2
+ :Chance:
  :Bus:2
 a:Autos tamponeuses:4
 a:Grande route:4
