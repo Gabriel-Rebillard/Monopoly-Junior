@@ -47,7 +47,7 @@ void Game::tirerCarte() {
 
     std::cout << "Carte tirée : " << carte.getText() << std::endl;
 
-    // Déplace le joueur
+  
     players.front().setPosition(carte.getDestination());
 }
 
@@ -108,11 +108,11 @@ void Game::nextTurn() {
 
     std::cout << joueur.getName() << " lance le dé : " << (int)dice << " et arrive à la case " << getCase(newPos).getName() << std::endl;
 
-    tirerCarte();    // Effet de carte si applicable
-    payerLoyer();    // Payer loyer si nécessaire
-    placerStand();   // Acheter une attraction si possible
+    tirerCarte(); 
+    payerLoyer();    
+    placerStand();
 
-    // Passer au joueur suivant
+
     players.push_back(joueur);
     players.erase(players.begin());
 }
