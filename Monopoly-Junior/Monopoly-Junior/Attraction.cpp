@@ -5,6 +5,11 @@ Attraction::Attraction(const std::string& name, short price)
 {
 }
 
+short Attraction::getPrice()
+{
+	return price;
+}
+
 void Attraction::setOwner(Joueur& own)
 {
 	owner = own;
