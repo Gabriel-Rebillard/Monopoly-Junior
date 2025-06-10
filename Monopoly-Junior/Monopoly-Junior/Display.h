@@ -16,4 +16,5 @@ public:
 	void DisplayStartCase(Joueur& joueur, bool passed);
 	void displayFortune(Joueur& joueur, short amount);
 	void displayShowCase(Joueur& joueur);
+	void displayRent(Joueur& joueur, Joueur& owner, short amount);
 };
