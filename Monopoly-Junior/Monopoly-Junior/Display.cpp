@@ -70,3 +70,8 @@ void Display::displayShowCase(Joueur& joueur)
 {
 	std::cout << joueur.getName() << " : Vous êtes sur une case de spectacle, payez 2$." << std::endl;
 }
+
+void Display::displayRent(Joueur& joueur, Joueur& owner, short amount)
+{
+	std::cout << joueur.getName() << " : Payez un loyer de " << amount << "$ à " << owner.getName() << std::endl;
+}
