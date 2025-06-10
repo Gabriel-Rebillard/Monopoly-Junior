@@ -1,27 +1,28 @@
 #include "Game.h"
-#include <iostream>
-#include <cstdlib>
 
 Game::Game() {
     createCases();
     flushCards();
 }
 
-Case& Game::getCase(short position) {
+Case* Game::getCase(short position) {
     return cases.at(position);
 }
 
 void Game::payerLoyer() {
-    Player& joueur = players.front();
-    Case& c = getCase(joueur.getPosition());
+    void Game::payerLoyer()
+{
+	Joueur player = players.front();
+	Case* c = getCase(player.getPosition());
+	Joueur owner = *(c->getOwner());
 
-    Attraction* attraction = dynamic_cast<Attraction*>(&c);
-    if (attraction && attraction->getProprio() != nullptr && attraction->getProprio() != &joueur) {
-        joueur.modifyMoney(-attraction->getPrice());
-        attraction->getProprio()->modifyMoney(attraction->getPrice());
-        std::cout << joueur.getName() << " paie un loyer de " << (int)attraction->getPrice()
-                  << " à " << attraction->getProprio()->getName() << std::endl;
-    }
+	if (&owner != nullptr && owner.getName() != player.getName()) {
+		short price = c->getPrice();
+		player.modifyMoney(-price);
+		owner.modifyMoney(price);
+		display.displayRent(player, owner, price);
+	}
+}
 }
 
 void Game::placerStand() {
@@ -38,17 +39,14 @@ void Game::placerStand() {
     }
 }
 
-void Game::tirerCarte() {
-    if (cards.empty()) return;
-
-    Card carte = cards.front();
+short Game::tirerCarte() {
+    short destination = cards.begin()->getDestination();
+    
+    display.displayCard(cards.begin()->getText());
+    cards.insert(cards.end(), *cards.begin());
     cards.pop_front();
-    cards.push_back(carte);
-
-    std::cout << "Carte tirée : " << carte.getText() << std::endl;
-
-  
-    players.front().setPosition(carte.getDestination());
+    
+    return destination;
 }
 
 void Game::flushCards() {
@@ -76,27 +74,29 @@ void Game::flushCards() {
     chanceFile.close();
 }
 
-void Game::createCases() {
-    std::ifstream caseFile(CASES_FILE_NAME);
-    std::string line;
-    std::string temp;
+void Game::createCases()
+{
+	std::ifstream caseFile(CASES_FILE_NAME);
+	std::string line;
+	std::string temp;
 
-    for (short i = 0; i < 32 && std::getline(caseFile, line); i++) {
-        temp = line.substr(2);  // Skip the prefix
-        if (line.at(0) == 'a') {
-            Attraction c(temp.substr(0, temp.find(':')), std::stoi(temp.substr(temp.find(':') + 1)));
-            cases.push_back(c);
-        }
-        else if (line.at(0) == 'f') {
-            Fortune c(temp.substr(0, temp.find(':')));
-            cases.push_back(c);
-        }
-        else {
-            Case c(temp.substr(0, temp.find(':')));
-            cases.push_back(c);
-        }
-    }
+	for (short i = 0; i < CASE_NUMBER; i++){
+		std::getline(caseFile, line);
+		temp = line.substr(2);
 
+		if (line.at(0) == 'a') {
+			Attraction* c = new Attraction(temp.substr(0, temp.find(':')), std::stoi(temp.substr(temp.find(':') + 1)));
+			cases.push_back(c);
+		}
+		else if (line.at(0) == 'f') {
+			Fortune* c = new Fortune(temp.substr(0, temp.find(':')));
+			cases.push_back(c);
+		}
+		else {
+			Case* c = new Case(temp.substr(0, temp.find(':')));
+			cases.push_back(c);
+		}
+	}
     caseFile.close();
 }
 
