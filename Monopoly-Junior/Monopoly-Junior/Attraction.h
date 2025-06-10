@@ -10,6 +10,9 @@ private:
 
 public:
 	Attraction(const std::string& name, short price);
+
+	short getPrice();
+
 	void setOwner(Joueur& own);
 	Joueur getOwner();
 };
