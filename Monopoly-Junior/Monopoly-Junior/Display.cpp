@@ -2,14 +2,14 @@
 
 void Display::displayCase(Case& c)
 {
-	std::cout << "\t -> Vous etes sur la case " << c.getName() << std::endl;
+	std::cout << "\n\t -> Vous êtes sur la case " << c.getName() << std::endl;
 
-	short length = c.getName().length() + 2 - (c.getName().find('é') < 100 ? 1 : 0) - (c.getName().find('â') < 100 ? 1 : 0);
+	short length = c.getName().length() + 2 - (c.getName().find('é') < 100 ? 1 : 0) - (c.getName().find('â') < 100 ? 1 : 0) - (c.getName().find('è') < 100 ? 1 : 0);
 	
-	std::cout << "\t╔";
+	std::cout << "\t\t╔";
 	for (short i = 0; i < length; i++)
 		std::cout << "═";
-	std::cout << "╗\n\t║ " << c.getName() << " ║\n\t╚";
+	std::cout << "╗\n\t\t║ " << c.getName() << " ║\n\t\t╚";
 	for (short i = 0; i < length; i++)
 		std::cout << "═";
 	std::cout << "╝\n\n";
@@ -17,30 +17,77 @@ void Display::displayCase(Case& c)
 
 void Display::displayCard(const std::string& text)
 {
-	std::cout << "\t ==> Vous etes sur une carte chance !!!\n\t\tCarte :\n" ;
+	std::cout << "\n\t ==> Vous êtes sur une case chance !!!\n\t\tCarte :\n" ;
 
 	short length = text.length() + 2 - (text.find('é') < 100 ? 1 : 0) - (text.find('ç') < 100 ? 1 : 0);
-	std::cout << "\t┌";
+	std::cout << "\t\t┌";
 	for (short i = 0; i < length; i++)
 		std::cout << "─";
-	std::cout << "┐\n\t│ " << text << " │\n\t└";
+	std::cout << "┐\n\t\t│ " << text << " │\n\t\t└";
 	for (short i = 0; i < length; i++)
 		std::cout << "─";
 	std::cout << "┘\n\n";
 
 }
 
-bool Display::displayBuyChoice()
+void Display::displayTurnBeginning(Joueur& player, Case& c)
+{
+	std::cout << "\n\n\nAu tour de " << player.getName() << " de jouer.\n\t  --> Vous avez " << player.getMoney() << "$, et vous êtes sur la case " << c.getName() << std::endl;
+}
+
+void Display::displayDice(short dice1, short dice2)
+{
+	std::cout << "\n\n" << (selectDiceFace(dice1));
+	std::cout << (selectDiceFace(dice2)) << std::endl;
+	std::cout << "\n\tVous avez fait " << dice1 << " et " << dice2 << " !" << std::endl;
+}
+
+bool Display::displayBuyChoice(Case* attraction)
 {
 	char choice;
 
 	do {
-		std::cout << "\tVoulez vous acheter cette attraction ? (0 : non / 1 : oui) : " << std::endl;
+		std::cout << "\tCette attraction est disponible et coûte " << attraction->getPrice() << "$.\n"
+			<< "\tVoulez vous acheter cette attraction ? (0 : non / 1 : oui) : " << std::endl;
 		std::cin >> choice;
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	} while (choice != '0' && choice != '1');
 
-	return choice - '0';
+	choice -= '0';
+	if (choice == 1)
+		std::cout << "\tVous possédez maintenant l'attraction " << attraction->getName() << std::endl;
+	else
+		std::cout << "\tVous avez refusé d'acheter l'attraction " << attraction->getName() << std::endl;
+
+	return choice;
+}
+
+void Display::displayNotEnoughMoney()
+{
+	std::cout << "\tVous n'avez pas assez d'argent." << std::endl;
+}
+
+void Display::displayFreeStand(Case& attraction, bool canBePlaced, Joueur oldOwner)
+{
+	if (canBePlaced)
+		if (oldOwner.getName() != "None")
+			std::cout << "\tVous avez placé un stand gratuit sur l'attraction \"" << attraction.getName() << "\", et avez pris cette attraction à " << oldOwner.getName() << " !" << std::endl;
+		else
+			std::cout << "\tVous avez placé un stand gratuit sur l'attraction \"" << attraction.getName() << "\" !" << std::endl;
+
+	else
+			std::cout << "\tVous ne pouvez pas placer de stand gratuit sur l'attraction \"" << attraction.getName() << "\"." << std::endl;
+
+}
+
+void Display::displayFreeStand(bool canBePlaced)
+{
+	if (canBePlaced)
+		std::cout << "\tVous avez placé un stand gratuit !" << std::endl;
+
+	else
+		std::cout << "\tVous ne pouvez pas placer de stand gratuit." << std::endl;
+
 }
 
 void Display::displayCoffee(Joueur& joueur)

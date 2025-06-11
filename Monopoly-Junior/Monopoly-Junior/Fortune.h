@@ -8,6 +8,7 @@ private:
 
 public:
 	Fortune(const std::string& name);
+
 	short getMoney();
 	void addMoney(short amount);
 };

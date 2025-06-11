@@ -1,5 +1,4 @@
 #pragma once
-
 #include <list>
 #include <vector>
 #include <fstream>
@@ -11,28 +10,40 @@
 
 #include "Display.h"
 
+#include <iostream>
+
 #define CHANCE_FILE_NAME "chance.txt"
 #define CASES_FILE_NAME "cases.txt"
 #define CASE_NUMBER 32
 
+enum CHANCE_POSITION { CHANCE_1 = 1, CHANCE_2 = 4, CHANCE_3 = 9, CHANCE_4 = 17, CHANCE_5 = 20, CHANCE_6 = 25 };
+enum SHOW_POSITION { FIREWORKS = 8, DOLPHINS = 24 };
+enum TRAIN_POSITION { YELLOW_TRAIN = 5, GREEN_TRAIN = 13, BLUE_TRAIN = 21, RED_TRAIN = 29 };
+enum OTHER_EVENT_POSITION { START = 0, FORTUNE = 16, GO_TO_COFFE = 26 };
+
 class Game {
 private:
-    std::vector<Case*> cases;
-    std::list<Card> cards;
-    std::vector<Player> players;
+	std::vector<Case*> cases;
+	std::list<Card> cards;
+	std::vector<Joueur> players;
+	short currentPlayerIndex;
 
-    Display display;
+	Display display;
 
-    Case* getCase(short position);
-    void payerLoyer();
-    void placerStand();
-    void tirerCarte();
-    void flushCards();
-    void createCases();
+	Case* getCase(short position);  
+	short countRemainningPlayers();
+
+	void payerLoyer();
+	void placeFreeStand(short position);
+	void buyStand();
+	void placerStand();
+	short tirerCarte();      
+
+	void flushCards();
+	void createCases();
 
 public:
-    Game();
-
-    void nextTurn();              
-    void addPlayer(Player& player); 
+	Game();                       
+	bool nextTurn();
+	void addPlayer(Joueur& player);
 };

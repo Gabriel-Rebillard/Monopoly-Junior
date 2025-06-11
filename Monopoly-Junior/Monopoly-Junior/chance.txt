@@ -1,25 +1,25 @@
-stand gratuit orange:33
-stand gratuit orange:33
-stand gratuit rouge:33
-stand gratuit rouge:33
-stand gratuit rose:33
-stand gratuit rose:33
-stand gratuit bleu clair:33
-stand gratuit bleu clair:33
-stand gratuit bleu foncé:33
-stand gratuit bleu foncé:33
-stand gratuit jaune:33
-stand gratuit jaune:33
-stand gratuit vert:33
-stand gratuit vert:33
-stand gratuit violet:33
-va sur toboggan aquatique:14
-va sur la case grand huit:30
-paie 3 euros pour prendre le bus qui te conduit au café:26
-va sur la case départ et reçoit 2 euros:0
-va sur la case ballet de dauphine et paie 2 euros:24
-va sur la case feu artifice et paie 2 euro:8
-prend le petit train bleu et lance le dé une nouvelle fois:21
-prend le petit train rouge et lance le dé une nouvelle fois:29
-prend le petit train jaune et lance le dé une nouvelle fois:5
-prend le petit train vert et lance le dé une nouvelle fois:13
+Stand gratuit orange:45
+Stand gratuit orange:46
+Stand gratuit rouge:49
+Stand gratuit rouge:50
+Stand gratuit rose:43
+Stand gratuit rose:42
+Stand gratuit bleu clair:37
+Stand gratuit bleu clair:38
+Stand gratuit bleu foncé:61
+Stand gratuit bleu foncé:62
+Stand gratuit jaune:53
+Stand gratuit jaune:54
+Stand gratuit vert:58
+Stand gratuit vert:59
+Stand gratuit violet:34
+Va sur toboggan aquatique:14
+Va sur la case grand huit:30
+Paie 3 euros pour prendre le bus qui te conduit au café:26
+Va sur la case départ et reçoit 2 euros:0
+Va sur la case ballet de dauphine et paie 2 euros:24
+Va sur la case feu artifice et paie 2 euro:8
+Prend le petit train bleu et lance le dé une nouvelle fois:21
+Prend le petit train rouge et lance le dé une nouvelle fois:29
+Prend le petit train jaune et lance le dé une nouvelle fois:5
+Prend le petit train vert et lance le dé une nouvelle fois:13

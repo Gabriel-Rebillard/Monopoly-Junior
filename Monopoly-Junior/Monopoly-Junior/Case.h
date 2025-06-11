@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
+#include "Joueur.h"
 
 class Case
 {
-protected:
+public:
 	std::string name;
 
 public:
@@ -15,7 +16,7 @@ public:
 	virtual short getPrice();
 	virtual void setOwner(Joueur& own);
 	virtual Joueur* getOwner();
-	
+
 	//Fortune methodes
 	virtual short getMoney();
 	virtual void addMoney(short amount);

@@ -1,7 +1,7 @@
 #include "Attraction.h"
 
 Attraction::Attraction(const std::string& name, short price)
-	: price(price), Case(name), owner(NULL)
+	: price(price), Case(name), owner(new Joueur("None"))
 {
 }
 
@@ -12,10 +12,10 @@ short Attraction::getPrice()
 
 void Attraction::setOwner(Joueur& own)
 {
-	owner = own;
+	owner = &own;
 }
 
-Joueur Attraction::getOwner()
+Joueur* Attraction::getOwner()
 {
 	return owner;
 }
