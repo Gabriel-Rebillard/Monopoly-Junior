@@ -99,11 +99,13 @@ void Game::buyStand()
 	Joueur& player = players.at(currentPlayerIndex);
 	Case* stand = getCase(player.getPosition());
 
+	// Vérifier si le joueur a assez d'argent
 	if (player.getMoney() < stand->getPrice()) {
 		display.displayNotEnoughMoney();
 		return;
 	}
 
+	// Demander au joueur la confirmation d'achat
 	bool choice = display.displayBuyChoice(stand);
 	if (choice) {
 		player.modifyMoney(-stand->getPrice());
@@ -114,7 +116,7 @@ void Game::buyStand()
 void Game::placerStand()
 {
 	Joueur& player = players.at(currentPlayerIndex);
-	Case* property = getCase(player.getPosition());
+	Case* property = getCase(player.getPosition());		// Récupérer la case sur laquelle se trouve le joueur
 	property->setOwner(player);
 }
 
@@ -122,9 +124,128 @@ short Game::tirerCarte()
 {
 	short destination = cards.begin()->getDestination();
 	display.displayCard(cards.begin()->getText());
+
+	// Remettre la carte à la fin de la pile
 	cards.insert(cards.end(), *cards.begin());
 	cards.pop_front();
+
 	return destination;
+}
+
+void Game::testElimination(Joueur& currentPlayer)
+{
+	if (currentPlayer.getMoney() <= 0)
+		display.displayElimination(currentPlayer);
+}
+
+bool Game::caseAction(Joueur& currentPlayer, bool& reRollDices)
+{
+	bool endOfTurn;
+	switch (currentPlayer.getPosition()) {
+
+		// Le joueur tombe sur une case chance
+	case CHANCE_1: case CHANCE_2: case CHANCE_3: case CHANCE_4: case CHANCE_5: case CHANCE_6:
+		endOfTurn = chanceAction(currentPlayer);
+		break;
+
+		// Le joueur tombe sur une gare
+	case YELLOW_TRAIN: case GREEN_TRAIN: case BLUE_TRAIN: case RED_TRAIN:
+		reRollDices = trainAction();
+		endOfTurn = false;
+		break;
+
+		// Le joueur tombe sur une case spectacle
+	case FIREWORKS: case DOLPHINS:
+		showAction(currentPlayer);
+		endOfTurn = true;
+		break;
+
+		// Le joueur tombe sur la case "Aller au café"
+	case GO_TO_COFFE:
+		busAction(currentPlayer);
+		endOfTurn = true;
+		break;
+
+		// Le joueur tombe sur la case départ
+	case START:
+		startAction(currentPlayer);
+		endOfTurn = true;
+		break;
+
+		// Le joueur tombe sur la case fortune
+	case FORTUNE:
+		fortuneAction(currentPlayer);
+		endOfTurn = true;
+		break;
+
+		// Le joueur tombe sur la case café ou sur une attraction
+	default:
+		attractionAction(currentPlayer);
+		endOfTurn = true;
+	}
+
+	return endOfTurn;
+}
+
+
+bool Game::chanceAction(Joueur& currentPlayer)
+{
+	short destination = tirerCarte();
+	if (destination < 32) {
+		currentPlayer.setPosition(destination);
+		return false;
+	}
+	else {
+		placeFreeStand(destination - 31);
+		return true;
+	}
+}
+
+bool Game::trainAction()
+{
+	display.displayTrainStation();
+	return true;
+}
+
+void Game::showAction(Joueur& currentPlayer)
+{
+	display.displayShowCase(currentPlayer);
+	currentPlayer.modifyMoney(-2);
+	cases.at(FORTUNE)->addMoney(2);
+}
+
+void Game::busAction(Joueur& currentPlayer)
+{
+	display.displayCoffee(currentPlayer);
+	currentPlayer.modifyMoney(-3);
+	getCase(FORTUNE)->addMoney(3);
+	currentPlayer.setPosition(10); // Mettre le joueur sur la case café
+}
+
+void Game::startAction(Joueur& currentPlayer)
+{
+	display.DisplayStartCase(currentPlayer, false);
+	currentPlayer.modifyMoney(4);
+}
+
+void Game::fortuneAction(Joueur& currentPlayer)
+{
+	short money = getCase(currentPlayer.getPosition())->getMoney();
+	display.displayFortune(currentPlayer, money);
+	currentPlayer.modifyMoney(money);
+}
+
+void Game::attractionAction(Joueur& currentPlayer)
+{
+	if (currentPlayer.getPosition() != 10) {
+		Case* attraction = getCase(currentPlayer.getPosition());
+		if (attraction->getOwner() != nullptr) {
+			if (attraction->getOwner()->getName() != "None")
+				payerLoyer();
+			else
+				buyStand();
+		}
+	}
 }
 
 void Game::flushCards()
@@ -142,8 +263,10 @@ void Game::flushCards()
 
 	//Mélanger les cartes
 	while (std::getline(chanceFile, line)) {
+		// Créer la carte avec le texte et la destination contenus dans la ligne du fichier
 		Card card(line.substr(0, line.find(':')), std::stoi(line.substr(line.find(':') + 1)));
 
+		// Rendre l'index d'insertion aléatoire
 		index = cards.begin();
 		position = rand() % cards.size();
 		for (short i = 0; i < position; i++)
@@ -162,18 +285,25 @@ void Game::createCases()
 	std::string temp;
 
 	for (short i = 0; i < CASE_NUMBER; i++){
+		// Lire une ligne du fichier
 		std::getline(caseFile, line);
+
+		// Enlever le préfixe 'x:'
 		temp = line.substr(2);
 
+		// Tester le préfixe
 		if (line.at(0) == 'a') {
+			// Créer une attraction avec le texte et le prix contenus dans la ligne du fichier
 			Attraction* c = new Attraction(temp.substr(0, temp.find(':')), std::stoi(temp.substr(temp.find(':') + 1)));
 			cases.push_back(c);
 		}
 		else if (line.at(0) == 'f') {
+			// Créer une attraction avec le texte contenus dans la ligne du fichier
 			Fortune* c = new Fortune(temp.substr(0, temp.find(':')));
 			cases.push_back(c);
 		}
 		else {
+			// Créer une attraction avec le texte contenus dans la ligne du fichier
 			Case* c = new Case(temp.substr(0, temp.find(':')));
 			cases.push_back(c);
 		}
@@ -217,78 +347,17 @@ bool Game::nextTurn()
 			reRollDices = false;
 		}
 
-		playerPosition = currentPlayer.getPosition();
-		display.displayCase(*getCase(playerPosition));
+		display.displayCase(*getCase(currentPlayer.getPosition()));
 
-		short destination;
-		switch (playerPosition) {
-
-			// Le joueur tombe sur une case chance
-		case CHANCE_1: case CHANCE_2: case CHANCE_3: case CHANCE_4: case CHANCE_5: case CHANCE_6:
-			destination = tirerCarte();
-			if (destination < 32)
-				currentPlayer.setPosition(destination);
-			else {
-				placeFreeStand(destination - 31);
-				endOfTurn = true;
-			}
-			break;
-
-			// Le joueur tombe sur une gare
-		case YELLOW_TRAIN: case GREEN_TRAIN: case BLUE_TRAIN: case RED_TRAIN:
-			display.displayTrainStation(currentPlayer);
-			reRollDices = true;
-			break;
-
-			// Le joueur tombe sur une case spectacle
-		case FIREWORKS: case DOLPHINS:
-			display.displayShowCase(currentPlayer);
-			currentPlayer.modifyMoney(-2);
-			cases.at(FORTUNE)->addMoney(2);
-			endOfTurn = true;
-			break;
-
-			// Le joueur tombe sur la case "Aller au café"
-		case GO_TO_COFFE:
-			display.displayCoffee(currentPlayer);
-			currentPlayer.modifyMoney(-3);
-			getCase(FORTUNE)->addMoney(3);
-			currentPlayer.setPosition(10); // Mettre le joueur sur la case café
-			endOfTurn = true;
-			break;
-
-			// Le joueur tombe sur la case départ
-		case START:
-			display.DisplayStartCase(currentPlayer, false);
-			currentPlayer.modifyMoney(4);
-			endOfTurn = true;
-			break;
-
-			// Le joueur tombe sur la case fortune
-			short money;
-		case FORTUNE:
-			money = getCase(playerPosition)->getMoney();
-			display.displayFortune(currentPlayer, money);
-			currentPlayer.modifyMoney(money);
-			endOfTurn = true;
-			break;
-
-			// Le joueur tombe sur la case café ou sur une attraction
-		default :
-			if (playerPosition != 10) {
-				Case* property = getCase(playerPosition);
-				if (property->getOwner() != nullptr) {
-					if (property->getOwner()->getName() != "None")
-						payerLoyer();
-					else
-						buyStand();
-				}
-			}
-			endOfTurn = true;
-		}
+		// Effectuer l'action de la case sur laquelle le joueur tombe
+		endOfTurn = caseAction(currentPlayer, reRollDices);
 	}
 
+	// Incrémenter le compteur joueur
 	currentPlayerIndex = ++currentPlayerIndex == players.size() ? 0 : currentPlayerIndex;
+
+	// Vérifie si le joueur courant est éliminé
+	testElimination(currentPlayer);
 
 	// Retourne true si il reste au moins deux joueurs
 	return countRemainningPlayers() > 1;

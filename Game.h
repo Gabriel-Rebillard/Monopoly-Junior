@@ -37,6 +37,21 @@ private:
 	void placerStand();
 	short tirerCarte();      
 
+
+	void testElimination(Joueur& currentPlayer);
+
+
+	bool caseAction(Joueur& currentPlayer, bool& reRollDices);
+	bool chanceAction(Joueur& currentPlayer);
+	bool trainAction();
+	void showAction(Joueur& currentPlayer);
+	void busAction(Joueur& currentPlayer);
+	void startAction(Joueur& currentPlayer);
+	void fortuneAction(Joueur& currentPlayer);
+	void attractionAction(Joueur& currentPlayer);
+
+
+
 	void flushCards();
 	void createCases();
 

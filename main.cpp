@@ -14,6 +14,8 @@ int main(void) {
 	std::cout << "\n\nCommencer la partie ? (appuyez sur une touche puis Entrée) :";
 	std::cin >> wait_char;
 
+
+
 	// Demander le nombre de joueurs
 	std::string resp;
 	char nbPlayers;
@@ -30,6 +32,8 @@ int main(void) {
 
 	nbPlayers -= '0';
 
+
+
 	// Demander le nom des joueurs
 	for (short i = 1; i <= nbPlayers; i++){
 		std::cout << "\nNom du " << i << "e joueur : ";
@@ -37,6 +41,8 @@ int main(void) {
 		game.addPlayer(*new Joueur(resp));
 	}
 
+
+	// Boucle de jeu
 	while (game.nextTurn()){
 		std::cout << "\n\n\nProchain joueur ? (appuyez sur une touche puis Entrée) : ";
 		std::cin >> wait_char;

@@ -26,11 +26,13 @@ public:
 	bool displayBuyChoice(Case* attraction);
 	void displayNotEnoughMoney();
 
+	void displayElimination(Joueur& player);
+
 	void displayFreeStand(Case& attraction, bool canBePlaced, Joueur oldOwner);
 	void displayFreeStand(bool canBePlaced);
 
 	void displayCoffee(Joueur& joueur);
-	void displayTrainStation(Joueur& joueur);
+	void displayTrainStation();
 	void DisplayStartCase(Joueur& joueur, bool passed);
 	void displayFortune(Joueur& joueur, short amount);
 	void displayShowCase(Joueur& joueur);

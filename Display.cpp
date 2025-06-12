@@ -67,6 +67,11 @@ void Display::displayNotEnoughMoney()
 	std::cout << "\tVous n'avez pas assez d'argent." << std::endl;
 }
 
+void Display::displayElimination(Joueur& player)
+{
+	std::cout << "\t/!\\ " << player.getName() << " : Vous n'avez plus d'argent et êtes donc éliminé /!\\" << std::endl;
+}
+
 void Display::displayFreeStand(Case& attraction, bool canBePlaced, Joueur oldOwner)
 {
 	if (canBePlaced)
@@ -95,9 +100,9 @@ void Display::displayCoffee(Joueur& joueur)
 	std::cout << joueur.getName() << " : Vous êtes sur la case aller au café :  payez 3$ pout prendre le bus qui vous menera jusqu'a la case café sans prendre l'argent de la case départ."  << std::endl;
 }
 
-void Display::displayTrainStation(Joueur& joueur)
+void Display::displayTrainStation()
 {
-	std::cout << joueur.getName() << " : Vous êtes dans une gare, relancez le dé !"  << std::endl;
+	std::cout << "\tVous êtes dans une gare, relancez le dé !"  << std::endl;
 }
 
 void Display::DisplayStartCase(Joueur& joueur, bool passed)
