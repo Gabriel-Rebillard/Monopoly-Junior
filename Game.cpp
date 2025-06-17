@@ -332,6 +332,13 @@ bool Game::nextTurn()
 		currentPlayerIndex++;
 
 	Joueur& currentPlayer = players.at(currentPlayerIndex);
+
+	// Si le joueur courant est le denier, on affiche un message de victoire
+	if (countRemainningPlayers() == 1) {
+		display.displayVictory(currentPlayer);
+		return 0;
+	}
+	
 	display.displayTurnBeginning(currentPlayer, *getCase(currentPlayer.getPosition()));
 
 
