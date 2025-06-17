@@ -2,8 +2,8 @@
 
 // Constructeur de la classe Attraction
 // Initialise l'attraction avec un nom, un prix et un propriétaire par défaut ("None")
-Attraction::Attraction(const std::string& name, short price)
-    : price(price), Case(name), owner(new Joueur("None")) // Initialisation des membres
+Attraction::Attraction(const std::string& name, short price, Joueur* startOwner)
+	: price(price), Case(name), owner(startOwner)
 {
 }
 
