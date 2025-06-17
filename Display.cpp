@@ -4,29 +4,46 @@ void Display::displayCase(Case& c)
 {
 	std::cout << "\n\t -> Vous êtes sur la case " << c.getName() << std::endl;
 
+	// Longueur du texte de la case (le 'é' / 'â' / 'è' prennent deux octets au lieu d'un)
 	short length = c.getName().length() + 2 - (c.getName().find('é') < 100 ? 1 : 0) - (c.getName().find('â') < 100 ? 1 : 0) - (c.getName().find('è') < 100 ? 1 : 0);
+
+	// Afficher un cadre autour du texte
+	std::cout << "\t\t╔";						// Angle supérieur gauche
+
+	// Ligne du haut
+	for (short i = 0; i < length; i++)
+		std::cout << "═";
 	
-	std::cout << "\t\t╔";
+	std::cout << "╗\n\t\t║ " << c.getName() << " ║\n\t\t╚";		// Angle supérieur droit, coté gauche, texte, coté droit, angle inférieur gauche
+
+	// Ligne du bas
 	for (short i = 0; i < length; i++)
 		std::cout << "═";
-	std::cout << "╗\n\t\t║ " << c.getName() << " ║\n\t\t╚";
-	for (short i = 0; i < length; i++)
-		std::cout << "═";
-	std::cout << "╝\n\n";
+	
+	std::cout << "╝\n\n";						// Angle inférieur droit
 }
 
 void Display::displayCard(const std::string& text)
 {
 	std::cout << "\n\t ==> Vous êtes sur une case chance !!!\n\t\tCarte :\n" ;
 
+	// Longueur du texte de la carte (le 'é' / 'ç' prennent deux octets au lieu d'un)
 	short length = text.length() + 2 - (text.find('é') < 100 ? 1 : 0) - (text.find('ç') < 100 ? 1 : 0);
-	std::cout << "\t\t┌";
+
+	// Afficher un cadre autour du texte
+	std::cout << "\t\t┌";					// Angle supérieur gauche
+
+	// Ligne du haut
 	for (short i = 0; i < length; i++)
 		std::cout << "─";
-	std::cout << "┐\n\t\t│ " << text << " │\n\t\t└";
+	
+	std::cout << "┐\n\t\t│ " << text << " │\n\t\t└";	// Angle supérieur droit, coté gauche, texte, coté droit, angle inférieur gauche
+
+	// Ligne du bas
 	for (short i = 0; i < length; i++)
 		std::cout << "─";
-	std::cout << "┘\n\n";
+	
+	std::cout << "┘\n\n";					// Angle inférieur droit
 
 }
 
@@ -37,9 +54,9 @@ void Display::displayTurnBeginning(Joueur& player, Case& c)
 
 void Display::displayDice(short dice1, short dice2)
 {
-	std::cout << "\n\n" << (selectDiceFace(dice1));
-	std::cout << (selectDiceFace(dice2)) << std::endl;
-	std::cout << "\n\tVous avez fait " << dice1 << " et " << dice2 << " !" << std::endl;
+	std::cout << "\n\n" << (selectDiceFace(dice1));						// Afficher le dé 1
+	std::cout << (selectDiceFace(dice2)) << std::endl;					// Afficher le dé 2
+	std::cout << "\n\tVous avez fait " << dice1 << " et " << dice2 << " !" << std::endl;	// Afficher les nombres
 }
 
 bool Display::displayBuyChoice(Case* attraction)
@@ -49,16 +66,21 @@ bool Display::displayBuyChoice(Case* attraction)
 	do {
 		std::cout << "\tCette attraction est disponible et coûte " << attraction->getPrice() << "$.\n"
 			<< "\tVoulez vous acheter cette attraction ? (0 : non / 1 : oui) : " << std::endl;
+
+		// Prendre un seul caractère sur l'entrée standard et ignorer les autres
 		std::cin >> choice;
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	} while (choice != '0' && choice != '1');
+	} while (choice != '0' && choice != '1');	// Vérification du choix
 
-	choice -= '0';
+	choice -= '0';	// Passage du caractère à la valeur
+	
+	// Appliquer le choix
 	if (choice == 1)
 		std::cout << "\tVous possédez maintenant l'attraction " << attraction->getName() << std::endl;
 	else
 		std::cout << "\tVous avez refusé d'acheter l'attraction " << attraction->getName() << std::endl;
 
+	// Envoyer le choix à l'algorythme du jeu
 	return choice;
 }
 
