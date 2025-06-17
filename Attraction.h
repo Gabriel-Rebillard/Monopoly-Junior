@@ -1,17 +1,24 @@
-#pragma once
-#include "Joueur.h"
-#include "Case.h"
+#pragma once // Empêche les inclusions multiples du fichier
 
-class Attraction : public Case{
+#include "Joueur.h" // Inclusion de la classe Joueur
+#include "Case.h"   // Inclusion de la classe de base Case
+
+// Déclaration de la classe Attraction, qui hérite de la classe Case
+class Attraction : public Case {
 private:
-	short price;
-	Joueur* owner;
+    short price;       // Prix d'achat de l'attraction
+    Joueur* owner;     // Pointeur vers le propriétaire de l'attraction
 
 public:
-	Attraction(const std::string& name, short price);
+    // Constructeur : initialise le nom de l'attraction et son prix
+    Attraction(const std::string& name, short price);
 
-	short getPrice();
+    // Accesseur : retourne le prix de l'attraction
+    short getPrice();
 
-	void setOwner(Joueur& own);
-	Joueur* getOwner();
+    // Mutateur : définit le propriétaire de l'attraction
+    void setOwner(Joueur& own);
+
+    // Accesseur : retourne un pointeur vers le propriétaire de l'attraction
+    Joueur* getOwner();
 };
