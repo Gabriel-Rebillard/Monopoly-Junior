@@ -11,7 +11,7 @@ private:
 
 public:
     // Constructeur : initialise le nom de l'attraction et son prix
-    Attraction(const std::string& name, short price);
+    Attraction(const std::string& name, short price, Joueur* startOwner);
 
     // Accesseur : retourne le prix de l'attraction
     short getPrice();
