@@ -16,6 +16,8 @@ Case* Game::getCase(short position)
 short Game::countRemainningPlayers()
 {
 	short remainning = 0;
+
+	// Parcourir le vector de Joueurs
 	for (auto& player : players)
 		if (player.getMoney() > 0)
 			remainning++;
@@ -25,11 +27,11 @@ short Game::countRemainningPlayers()
 
 void Game::payerLoyer()
 {
-	Joueur& player = players.at(currentPlayerIndex);	// Joueur étant sur la case
+	Joueur& player = players.at(currentPlayerIndex);	// Joueur Ã©tant sur la case
 	Case* c = getCase(player.getPosition());
-	Joueur* owner = c->getOwner();						// Propriétaire de la case
+	Joueur* owner = c->getOwner();						// PropriÃ©taire de la case
 
-	// Vérifier si la case est une attraction et si le joueur n'est pas le propriétaire
+	// VÃ©rifier si la case est une attraction et si le joueur n'est pas le propriÃ©taire
 	if (owner != nullptr && owner->getName() != player.getName()) {
 		short price = c->getPrice();
 		player.modifyMoney(-price);
@@ -41,30 +43,30 @@ void Game::payerLoyer()
 void Game::placeFreeStand(short position)
 {
 	Joueur& player = players.at(currentPlayerIndex);
-	Case* stand = getCase(position);				// Attraction visée
-	Case* previousCase = getCase(position - 1);		// Case précédant l'attraction visée
-	Case* nextCase = getCase((position + 1) % 32);	// Case suivant l'attraction visée
+	Case* stand = getCase(position);				// Attraction visÃ©e
+	Case* previousCase = getCase(position - 1);		// Case prÃ©cÃ©dant l'attraction visÃ©e
+	Case* nextCase = getCase((position + 1) % 32);	// Case suivant l'attraction visÃ©e
 
-	// Si la case précédente n'est pas une attraction
+	// Si la case prÃ©cÃ©dente n'est pas une attraction
 	if (previousCase->getOwner() == nullptr) {
 
-		// Si il n'y a aucun joueur sur la case ou si le propriétaire n'est pas le même que celui de l'attraction voisine
+		// Si il n'y a aucun joueur sur la case ou si le propriÃ©taire n'est pas le mÃªme que celui de l'attraction voisine
 		if (stand->getOwner()->getName() == "None" || stand->getOwner()->getName() != nextCase->getOwner()->getName()) {
 
-			// Si le joueur est déjà propriétaire de l'attraction visée, il prend la case voisine
-			if (stand->getOwner()->getName() == player.getName()) {
+			// Si un joueur est dÃ©jÃ  propriÃ©taire de l'attraction visÃ©e, on place sur la case voisine si elle n'est pas occupÃ©e
+			if (nextCase->getOwner()->getName() == "None" && stand->getOwner()->getName() != "None") {
 				display.displayFreeStand(*nextCase, true, *nextCase->getOwner());
 				nextCase->setOwner(player);
 			}
 
-			// Sinon il prend l'attraction visée
+			// Sinon on place sur l'attraction visÃ©e
 			else {
 				display.displayFreeStand(*stand, true, *stand->getOwner());
 				stand->setOwner(player);
 			}
 		}
 
-		// Si un joueur possède les deux attractions de la couleur
+		// Si un joueur possÃ¨de les deux attractions de la couleur
 		else
 			display.displayFreeStand(false);
 	}
@@ -72,23 +74,23 @@ void Game::placeFreeStand(short position)
 	// Si la case suivante n'est pas une attraction
 	else {
 
-		// Si il n'y a aucun joueur sur la case ou si le propriétaire n'est pas le même que celui de l'attraction voisine
+		// Si il n'y a aucun joueur sur la case ou si le propriÃ©taire n'est pas le mÃªme que celui de l'attraction voisine
 		if (stand->getOwner()->getName() == "None" || stand->getOwner()->getName() != previousCase->getOwner()->getName()) {
 
-			// Si le joueur est déjà propriétaire de l'attraction visée, il prend la case voisine
-			if (stand->getOwner()->getName() == player.getName()) {
+			// Si le joueur est dÃ©jÃ  propriÃ©taire de l'attraction visÃ©e, on place sur la case voisine si elle n'est pas occupÃ©e
+			if (previousCase->getOwner()->getName() == "None" && stand->getOwner()->getName() != "None") {
 				display.displayFreeStand(*previousCase, true, *previousCase->getOwner());
 				previousCase->setOwner(player);
 			}
 
-			// Sinon il prend l'attraction visée
+			// Sinon on place sur l'attraction visÃ©e
 			else {
 				display.displayFreeStand(*stand, true, *stand->getOwner());
 				stand->setOwner(player);
 			}
 		}
 
-		// Si un joueur possède les deux attractions de la couleur
+		// Si un joueur possÃ¨de les deux attractions de la couleur
 		else
 			display.displayFreeStand(false);
 	}
@@ -99,7 +101,7 @@ void Game::buyStand()
 	Joueur& player = players.at(currentPlayerIndex);
 	Case* stand = getCase(player.getPosition());
 
-	// Vérifier si le joueur a assez d'argent
+	// VÃ©rifier si le joueur a assez d'argent
 	if (player.getMoney() < stand->getPrice()) {
 		display.displayNotEnoughMoney();
 		return;
@@ -116,7 +118,7 @@ void Game::buyStand()
 void Game::placerStand()
 {
 	Joueur& player = players.at(currentPlayerIndex);
-	Case* property = getCase(player.getPosition());		// Récupérer la case sur laquelle se trouve le joueur
+	Case* property = getCase(player.getPosition());		// RÃ©cupÃ©rer la case sur laquelle se trouve le joueur
 	property->setOwner(player);
 }
 
@@ -125,7 +127,7 @@ short Game::tirerCarte()
 	short destination = cards.begin()->getDestination();
 	display.displayCard(cards.begin()->getText());
 
-	// Remettre la carte à la fin de la pile
+	// Remettre la carte Ã  la fin de la pile
 	cards.insert(cards.end(), *cards.begin());
 	cards.pop_front();
 
@@ -160,13 +162,13 @@ bool Game::caseAction(Joueur& currentPlayer, bool& reRollDices)
 		endOfTurn = true;
 		break;
 
-		// Le joueur tombe sur la case "Aller au café"
+		// Le joueur tombe sur la case "Aller au cafÃ©"
 	case GO_TO_COFFE:
 		busAction(currentPlayer);
 		endOfTurn = true;
 		break;
 
-		// Le joueur tombe sur la case départ
+		// Le joueur tombe sur la case dÃ©part
 	case START:
 		startAction(currentPlayer);
 		endOfTurn = true;
@@ -178,7 +180,7 @@ bool Game::caseAction(Joueur& currentPlayer, bool& reRollDices)
 		endOfTurn = true;
 		break;
 
-		// Le joueur tombe sur la case café ou sur une attraction
+		// Le joueur tombe sur la case cafÃ© ou sur une attraction
 	default:
 		attractionAction(currentPlayer);
 		endOfTurn = true;
@@ -191,10 +193,13 @@ bool Game::caseAction(Joueur& currentPlayer, bool& reRollDices)
 bool Game::chanceAction(Joueur& currentPlayer)
 {
 	short destination = tirerCarte();
+
+	// La carte envoie sur une case du plateau
 	if (destination < 32) {
 		currentPlayer.setPosition(destination);
 		return false;
 	}
+	// La carte est un stand gratuit
 	else {
 		placeFreeStand(destination - 31);
 		return true;
@@ -219,7 +224,7 @@ void Game::busAction(Joueur& currentPlayer)
 	display.displayCoffee(currentPlayer);
 	currentPlayer.modifyMoney(-3);
 	getCase(FORTUNE)->addMoney(3);
-	currentPlayer.setPosition(10); // Mettre le joueur sur la case café
+	currentPlayer.setPosition(10); // Mettre le joueur sur la case cafÃ©
 }
 
 void Game::startAction(Joueur& currentPlayer)
@@ -256,17 +261,17 @@ void Game::flushCards()
 	short position = 0;
 
 
-	//Remplir une première carte
+	//Remplir une premiÃ¨re carte
 	std::getline(chanceFile, line);
 	Card card(line.substr(0, line.find(':')), std::stoi(line.substr(line.find(':') + 1)));
 	cards.insert(index, card);
 
-	//Mélanger les cartes
+	//MÃ©langer les cartes
 	while (std::getline(chanceFile, line)) {
-		// Créer la carte avec le texte et la destination contenus dans la ligne du fichier
+		// CrÃ©er la carte avec le texte et la destination contenus dans la ligne du fichier
 		Card card(line.substr(0, line.find(':')), std::stoi(line.substr(line.find(':') + 1)));
 
-		// Rendre l'index d'insertion aléatoire
+		// Rendre l'index d'insertion alÃ©atoire
 		index = cards.begin();
 		position = rand() % cards.size();
 		for (short i = 0; i < position; i++)
@@ -284,30 +289,35 @@ void Game::createCases()
 	std::string line;
 	std::string temp;
 
+	// Joueur propriÃ©taire des attractions au dÃ©but de la partie
+	Joueur* nonePlayer = new Joueur("None");
+
 	for (short i = 0; i < CASE_NUMBER; i++){
 		// Lire une ligne du fichier
 		std::getline(caseFile, line);
 
-		// Enlever le préfixe 'x:'
+		// Enlever le prÃ©fixe 'x:'
 		temp = line.substr(2);
 
-		// Tester le préfixe
+		// Tester le prÃ©fixe
 		if (line.at(0) == 'a') {
-			// Créer une attraction avec le texte et le prix contenus dans la ligne du fichier
-			Attraction* c = new Attraction(temp.substr(0, temp.find(':')), std::stoi(temp.substr(temp.find(':') + 1)));
+			// CrÃ©er une attraction avec le texte et le prix contenus dans la ligne du fichier
+			Attraction* c = new Attraction(temp.substr(0, temp.find(':')), std::stoi(temp.substr(temp.find(':') + 1)), nonePlayer);
 			cases.push_back(c);
 		}
 		else if (line.at(0) == 'f') {
-			// Créer une attraction avec le texte contenus dans la ligne du fichier
+			// CrÃ©er une attraction avec le texte contenus dans la ligne du fichier
 			Fortune* c = new Fortune(temp.substr(0, temp.find(':')));
 			cases.push_back(c);
 		}
 		else {
-			// Créer une attraction avec le texte contenus dans la ligne du fichier
+			// CrÃ©er une attraction avec le texte contenus dans la ligne du fichier
 			Case* c = new Case(temp.substr(0, temp.find(':')));
 			cases.push_back(c);
 		}
 	}
+
+	caseFile.close();
 }	
 
 
@@ -317,7 +327,7 @@ bool Game::nextTurn()
 	bool reRollDices = true;
 	short playerPosition;
 
-	// Sauter les joueurs éliminés
+	// Sauter les joueurs Ã©liminÃ©s
 	while (players.at(currentPlayerIndex).getMoney() <= 0)
 		currentPlayerIndex++;
 
@@ -327,7 +337,7 @@ bool Game::nextTurn()
 
 	while (!endOfTurn) {
 
-		// Lancer les dés
+		// Lancer les dÃ©s
 		if (reRollDices) {
 			short dice1 = currentPlayer.rollDice();
 			short dice2 = currentPlayer.rollDice();
@@ -335,10 +345,10 @@ bool Game::nextTurn()
 
 			playerPosition = currentPlayer.getPosition();
 
-			// Modifier la position du joueur en fonction des dés
+			// Modifier la position du joueur en fonction des dÃ©s
 			currentPlayer.setPosition(currentPlayer.getPosition() + dice1 + dice2);
 
-			// Vérifier si le joueur a passé la case départ
+			// VÃ©rifier si le joueur a passÃ© la case dÃ©part
 			if (currentPlayer.getPosition() != 0 && currentPlayer.getPosition() < playerPosition) {
 				display.DisplayStartCase(currentPlayer, true);
 				currentPlayer.modifyMoney(2);
@@ -353,10 +363,10 @@ bool Game::nextTurn()
 		endOfTurn = caseAction(currentPlayer, reRollDices);
 	}
 
-	// Incrémenter le compteur joueur
+	// IncrÃ©menter le compteur joueur
 	currentPlayerIndex = ++currentPlayerIndex == players.size() ? 0 : currentPlayerIndex;
 
-	// Vérifie si le joueur courant est éliminé
+	// VÃ©rifie si le joueur courant est Ã©liminÃ©
 	testElimination(currentPlayer);
 
 	// Retourne true si il reste au moins deux joueurs
