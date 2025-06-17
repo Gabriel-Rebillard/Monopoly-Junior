@@ -149,3 +149,9 @@ void Display::displayRent(Joueur& joueur, Joueur& owner, short amount)
 {
 	std::cout << joueur.getName() << " : Payez un loyer de " << amount << "$ à " << owner.getName() << std::endl;
 }
+
+void Display::displayVictory(Joueur& joueur)
+{
+	std::cout << "\n\tFélicitation " << joueur.getName() << ", vous avez gagné la partie !!!" << std::endl;
+}
+
