@@ -64,4 +64,7 @@ public:
 
 	// Affiche le paiement d’un loyer à un propriétaire
 	void displayRent(Joueur& joueur, Joueur& owner, short amount);
+
+	// Affiche la victoire d'un joueur
+	void displayVictory(Joueur& joueur);
 };
